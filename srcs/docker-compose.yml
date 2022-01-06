@@ -1,0 +1,9 @@
+services:
+    mariadb:
+        build: ./requirements/mariadb
+    nginx:
+        build: ./requirements/nginx
+networks:
+    default:
+        external: true
+        name: my-network
