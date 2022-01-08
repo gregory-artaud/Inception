@@ -1,9 +1,12 @@
+version: "3.8"
 services:
     mariadb:
         build: ./requirements/mariadb
     nginx:
         build: ./requirements/nginx
+    wordpress:
+        build: ./requirements/wordpress
 networks:
     default:
-        external: true
+        external: false
         name: my-network
