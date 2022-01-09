@@ -1,19 +1,57 @@
 version: "3.8"
 services:
     mariadb:
+        container_name: mariadb
+        image: mariadb
         build: ./requirements/mariadb
         restart: always
+        ports:
+            - "3306:3306"
+        environment:
+            DB_USER: ${DB_USER}
+            DB_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - mariadb-vol:/var/lib/mysql
+        networks:
+            - default
     nginx:
+        container_name: nginx
+        image: nginx
         build: ./requirements/nginx
         restart: always
         ports:
             - "443:443"
         extra_hosts:
             - "gartaud.42.fr:127.0.0.1"
+        volumes:
+            - wordpress-vol:/var/www/wordpress
+        networks:
+            - default
     wordpress:
+        container_name: wordpress
+        image: wordpress
         build: ./requirements/wordpress
         restart: always
+        networks:
+            - default
+        depends_on:
+            - mariadb
+        volumes:
+            - wordpress-vol:/var/www/wordpress
 networks:
     default:
         external: false
         name: my-network
+volumes:
+    mariadb-vol:
+        driver: local
+        driver_opts:
+            type: none
+            device: /home/gartaud/data/mariadb
+            o: bind
+    wordpress-vol:
+        driver: local
+        driver_opts:
+            type: none
+            device: /home/gartaud/data/wordpress
+            o: bind

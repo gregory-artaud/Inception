@@ -11,4 +11,5 @@ build:
 clean:
 	docker-compose -f srcs/docker-compose.yml down
 	docker rmi -f $(shell docker images -q)
+	docker volume rm $(shell docker volume ls -q)
 
