@@ -1,5 +1,7 @@
 FROM debian:buster
 
-RUN apt update -y && apt upgrade -y
+RUN apt update -y && apt upgrade -y && apt install -y
 
-CMD ["bash"]
+EXPOSE 9000
+
+CMD ["tail", "-f", "/dev/null"]

@@ -13,3 +13,7 @@ clean:
 	docker rmi -f $(shell docker images -q)
 	docker volume rm $(shell docker volume ls -q)
 
+fclean: clean
+	$(SUDO) rm -rf /home/gartaud/data/mariadb/* /home/gartaud/data/wordpress/*
+
+re: fclean start
