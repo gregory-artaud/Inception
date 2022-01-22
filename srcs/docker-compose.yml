@@ -4,7 +4,7 @@ services:
         container_name: mariadb
         image: mariadb:gartaud
         build: ./requirements/mariadb
-        restart: always
+        restart: unless-stopped
         ports:
             - "3306:3306"
         environment:
@@ -12,18 +12,29 @@ services:
             - DB_PASSWORD=${DB_PASSWORD}
             - DB_NAME=${DB_NAME}
         volumes:
-            - /data/mariadb:/var/lib/mysql
+            - mariadb-vol:/var/lib/mysql
         networks:
             - default
     nginx:
         container_name: nginx
         image: nginx:gartaud
         build: ./requirements/nginx
-        restart: always
+        restart: unless-stopped
         ports:
             - "443:443"
         extra_hosts:
             - "gartaud.42.fr:127.0.0.1"
+        volumes:
+            - wordpress-vol:/var/www/html
+        networks:
+            - default
+    wordpress:
+        container_name: wordpress
+        image: wordpress:gartaud
+        build: ./requirements/wordpress
+        restart: unless-stopped
+        ports:
+            - "9000:9000"
         environment:
             - DB_USER=${DB_USER}
             - DB_PASSWORD=${DB_PASSWORD}
@@ -33,21 +44,10 @@ services:
             - WP_ADMIN_USER=${WP_ADMIN_USER}
             - WP_ADMIN_PWD=${WP_ADMIN_PWD}
             - WP_ADMIN_EMAIL=${WP_ADMIN_EMAIL}
-        volumes:
-            - wordpress-vol:/var/www/html
         networks:
             - default
-    wordpress:
-        container_name: wordpress
-        image: wordpress:gartaud
-        build: ./requirements/wordpress
-        restart: always
-        ports:
-            - "9000:9000"
-        networks:
-            - default
-        #depends_on:
-        #    - mariadb
+        depends_on:
+            - mariadb
         volumes:
             - wordpress-vol:/var/www/html
 networks:

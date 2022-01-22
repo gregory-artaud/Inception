@@ -3,6 +3,7 @@
 wget http://fr.wordpress.org/latest-fr_FR.tar.gz
 tar -xzvf latest-fr_FR.tar.gz -C /var/www/html/
 cp -rf /var/www/html/wordpress/* /var/www/html/
+cp /app/wp-config.php /var/www/html/wp-config.php
 rm -rf /var/www/html/wordpress
 rm latest-fr_FR.tar.gz
 

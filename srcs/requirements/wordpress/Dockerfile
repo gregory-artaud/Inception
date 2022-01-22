@@ -6,6 +6,7 @@ RUN apt update -y && apt upgrade -y && apt install -y \
 WORKDIR /var/www/html
 
 COPY ./config/www.conf /etc/php/7.3/fpm/pool.d/www.conf
+COPY ./config/wp-config.php /app/wp-config.php
 COPY ./config/init.sh /app/init.sh
 
 EXPOSE 9000
