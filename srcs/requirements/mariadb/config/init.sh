@@ -7,6 +7,7 @@ if [ ! -d "/var/lib/mysql/wordpress" ]; then
 		mysql -e "CREATE USER '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';" && \
 		mysql -e "GRANT ALL PRIVILEGES ON *.* TO '${DB_USER}'@'%' WITH GRANT OPTION;" && \
 		mysql -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME};"
+	mysql ${DB_NAME} < /wordpress.sql
 	service mysql stop
 fi
 mysqld

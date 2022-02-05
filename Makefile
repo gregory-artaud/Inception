@@ -1,20 +1,31 @@
 SUDO=sudo
+ENV=srcs/.env
+DOCKERYML=srcs/docker-compose.yml
+WORDPRESS_VOL=/home/gartaud/data/wordpress
+MARIADB_VOL=/home/gartaud/data/mariadb
 
-all: start
+all: up
 
-start: build
-	docker-compose --env-file srcs/.env -f srcs/docker-compose.yml up -d
+create_volumes:
+	mkdir -p $(WORDPRESS_VOL) $(MARIADB_VOL)
 
-build:
-	docker-compose --env-file srcs/.env -f srcs/docker-compose.yml build
+clear_volumes:
+	$(SUDO) rm -rf $(WORDPRESS_VOL)/* $(MARIADB_VOL)/*
 
-clean:
-	docker-compose --env-file srcs/.env -f srcs/docker-compose.yml down
-	docker rmi -f $(shell docker images -q)
-	docker volume rm $(shell docker volume ls -q)
+delete_volumes:
+	$(SUDO) rm -rf $(WORDPRESS_VOL) $(MARIADB_VOL)
 
-fclean: clean
-	$(SUDO) rm -rf /home/gartaud/data/wordpress/*
-	$(SUDO) rm -rf /home/gartaud/data/mariadb/*
+up: create_volumes
+	docker-compose --env-file $(ENV) -f $(DOCKERYML) up -d --build
 
-re: fclean start
+down:
+	docker-compose --env-file $(ENV) -f $(DOCKERYML) down
+
+clean: down clear_volumes
+
+fclean: clean delete_volumes
+	@./clear_docker.sh || echo Done.
+
+re: clean up
+
+.PHONY: all up down clean fclean re clear_volumes delete_volumes
