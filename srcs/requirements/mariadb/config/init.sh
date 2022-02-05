@@ -10,4 +10,5 @@ if [ ! -d "/var/lib/mysql/wordpress" ]; then
 	mysql ${DB_NAME} < /wordpress.sql
 	service mysql stop
 fi
+service mysql start
 mysqld

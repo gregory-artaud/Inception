@@ -7,7 +7,7 @@ MARIADB_VOL=/home/gartaud/data/mariadb
 all: up
 
 create_volumes:
-	mkdir -p $(WORDPRESS_VOL) $(MARIADB_VOL)
+	$(SUDO) mkdir -p $(WORDPRESS_VOL) $(MARIADB_VOL)
 
 clear_volumes:
 	$(SUDO) rm -rf $(WORDPRESS_VOL)/* $(MARIADB_VOL)/*
