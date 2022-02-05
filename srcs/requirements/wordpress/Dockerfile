@@ -11,4 +11,7 @@ COPY ./config/init.sh /app/init.sh
 
 EXPOSE 9000
 
-CMD ["sh", "/app/init.sh"]
+RUN chmod +x /app/init.sh
+RUN /app/init.sh
+
+CMD ["php-fpm7.3", "--nodaemonize"]

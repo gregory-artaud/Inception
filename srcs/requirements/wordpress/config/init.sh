@@ -9,5 +9,3 @@ rm latest-fr_FR.tar.gz
 
 service php7.3-fpm start
 service php7.3-fpm stop
-
-php-fpm7.3 --nodaemonize
