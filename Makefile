@@ -24,7 +24,7 @@ down:
 clean: down clear_volumes
 
 fclean: clean delete_volumes
-	@./clear_docker.sh || echo Done.
+	@./clear_docker.sh
 
 re: clean up
 
