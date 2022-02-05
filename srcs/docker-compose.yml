@@ -28,6 +28,8 @@ services:
             - wordpress-vol:/var/www/html
         networks:
             - default
+        depends_on:
+            - wordpress
     wordpress:
         container_name: wordpress
         image: wordpress:gartaud
