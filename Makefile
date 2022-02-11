@@ -16,15 +16,15 @@ delete_volumes:
 	$(SUDO) rm -rf $(WORDPRESS_VOL) $(MARIADB_VOL)
 
 up: create_volumes
-	docker-compose --env-file $(ENV) -f $(DOCKERYML) up -d --build
+	$(SUDO) docker-compose --env-file $(ENV) -f $(DOCKERYML) up -d --build
 
 down:
-	docker-compose --env-file $(ENV) -f $(DOCKERYML) down
+	$(SUDO) docker-compose --env-file $(ENV) -f $(DOCKERYML) down
 
 clean: down clear_volumes
 
 fclean: clean delete_volumes
-	@./clear_docker.sh
+	@$(SUDO) ./clear_docker.sh
 
 re: clean up
 
